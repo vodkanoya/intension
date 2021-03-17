@@ -212,7 +212,7 @@ public class Game {
 		position = "replyEmail";
 		mainTextArea.setText("The sender responds. \n\n'You're the lucky winner of $500! "
 				+ "\nPlease give us the details of your \nbank account to claim the money.'");
-		
+
 		c1.setText("Give bank account details");
 		c2.setText("Demand THEIR bank account details");
 		c3.setText("'I don't have a bank account'");
@@ -224,7 +224,7 @@ public class Game {
 		
 		position = "giveDetails";
 		mainTextArea.setText("Your bank calls you to inform you that \nyour account has"
-				+ " been compromised. \n\nNever disclose sensitive \ninformation online.");
+				+ " been compromised. \n\nNever disclose sensitive \ninformation online." + choices);
 		securityHP = securityHP - 20;
 		securityLabelNumber.setText(""+securityHP);
 		
@@ -277,24 +277,41 @@ public class Game {
 	public void wrongGoogle() {
 		
 		position = "wrongGoogle";
-		mainTextArea.setText("This site isn't really secure.");
+		mainTextArea.setText("You've arrived at what looks like the \nhomepage of Google."
+				+ "\n\nIt's full of ads and pop-ups you don't \nrecognize.");
 		
 		c1.setText("Go to https://google.com");
-		c2.setText("Go to http://google.com");
+		c2.setText("Click a pop-up");
 		c3.setVisible(false);
 		c4.setVisible(false);
+		
+	}
+	
+	public void popUp() {
+		
+		position = "popup";
+		
+		// inserting a random image here
+		
+		c1.setText("Next");
+		c2.setVisible(false);
+		c4.setVisible(false);
+		c3.setVisible(false);
 		
 	}
 	
 	public void demand() {
 		
 		position = "demandBank";
-		mainTextArea.setText("A pop-up with a button appears.");
+		mainTextArea.setText("They send back an email with a button, \nclaiming it's for claiming your prize."
+				+ "\n\nAt the corner of your eye, you spot \nsomething in the distance away from your \nscreen. "
+				+ "But a notification at the bottom \ncorner of the screen demands your \nattention too."
+				+ "\n\nWhat do you do?");
 		
-		c1.setText("Buttons exist to be pressed.");
-		c2.setText("Close pop-up and delete the email.");
-		c3.setText("Try googling its legitimacy.");
-		c4.setText("Block the sender and report it.");
+		c1.setText("Buttons exist to be pressed!");
+		c2.setText("Investigate what caught your eye.");
+		c3.setText("Check the notification.");
+		c4.setText("Close popup. Delete email.");
 	}
 	
 	public void openAttachment() {
@@ -304,7 +321,7 @@ public class Game {
 				+ " malware." +
 				"\n\nNever open emails with attachments or"
 				+ "\nlinks from suspicious senders for it could be a trap "
-				+ "devised to get you to disclose \npersonal data or financial information.");
+				+ "devised to infect you or to get \nyou to disclose personal data.");
 		
 		securityHP = securityHP - 20;
 		securityLabelNumber.setText(""+securityHP);
@@ -335,7 +352,7 @@ public class Game {
 		
 		position = "padlockIncorrect";
 		mainTextArea.setText("The padlock represents the digital proof \nthat the site was registered"
-				+ " with a \ncertificate authority to ensure that they are who they say they are."
+				+ " with a \ncertificate authority to ensure that they \nare who they say they are."
 				+ "\n\nYou may be safely connected to the site \nbut the site may not be legitimate.");
 		
 		securityHP = securityHP - 20;
@@ -351,7 +368,7 @@ public class Game {
 	public void usbCorrect() {
 		
 		position = "usbCorrect";
-		mainTextArea.setText("You go back to work. \n\nAll of a sudden, a Windows notification \ninforms you to"
+		mainTextArea.setText("Ah, look - it's a Windows notification \ninforming you to"
 				+ " update your system.");
 		
 		c2.setVisible(true);
@@ -540,10 +557,10 @@ public class Game {
 			switch(position) {
 			case "clearance":
 				switch(yourChoice) {
-				case "c1": replyEmail(); choices.add(1); break;
-				case "c2": openAttachment(); choices.add(2); break;
-				case "c3": openAttachment(); choices.add(3); break;
-				case "c4": deleteEmail(); choices.add(4); break;
+				case "c1": choices.add(1); replyEmail() ; break;
+				case "c2": choices.add(2); openAttachment(); break;
+				case "c3": choices.add(3); openAttachment(); break;
+				case "c4": choices.add(4); deleteEmail(); break;
 				
 				}
 				
@@ -551,10 +568,20 @@ public class Game {
 				
 			case "replyEmail" :
 				switch(yourChoice) {
-				case "c1": giveDetails(); break;
-				case "c2": demand(); break;
-				case "c3": break;
-				case "c4": deleteEmail(); break;
+				case "c1": choices.add(1); giveDetails(); break;
+				case "c2": choices.add(2); demand(); break;
+				case "c3": choices.add(3); demand(); break;
+				case "c4": choices.add(4); deleteEmail(); break;
+				}
+				
+				break;
+				
+			case "demandBank":
+				switch(yourChoice) {
+				case "c1": choices.add(1); popUp(); break;
+				case "c2": choices.add(2); padlockOver(); break;
+				case "c3": choices.add(3); usbCorrect(); break;
+				case "c4": choices.add(4); deleteEmail(); break;
 				}
 				
 				break;
@@ -575,28 +602,36 @@ public class Game {
 				
 			case "deleteEmail":
 				switch(yourChoice) {
-				case "c1": correctURL(); break;
-				case "c2": incorrectURL(); break;
-				case "c3": incorrectURL(); break;
-				case "c4": break;
+				case "c1": choices.add(1); correctURL(); break;
+				case "c2": choices.add(2); incorrectURL(); break;
+				case "c3": choices.add(3); incorrectURL(); break;
+				case "c4": choices.add(4); wrongGoogle(); break;
 				}
 				
 				break;
 				
 			case "incorrectURL":
 				switch(yourChoice) {
-				case "c1": correctURL(); break;
-				case "c2": wrongGoogle(); break;
+				case "c1": choices.add(1); correctURL(); break;
+				case "c2": choices.add(2); wrongGoogle(); break;
+				}
+				
+				break;
+				
+			case "wrongGoogle":
+				switch(yourChoice) {
+				case "c1": choices.add(1); correctURL(); break;
+				case "c2": choices.add(2); popUp(); break;
 				}
 				
 				break;
 				
 			case "correctURL":
 				switch(yourChoice) {
-				case"c1": padlockIncorrect(); break;
-				case"c2": padlockOver(); break;
-				case"c3": padlockIncorrect(); break;
-				case"c4": padlockIncorrect(); break;
+				case"c1": choices.add(1); padlockIncorrect(); break;
+				case"c2": choices.add(2); padlockOver(); break;
+				case"c3": choices.add(3); padlockIncorrect(); break;
+				case"c4": choices.add(4); padlockIncorrect(); break;
 				}
 				
 				break;
@@ -610,10 +645,10 @@ public class Game {
 				
 			case "padlockOver":
 				switch(yourChoice) {
-				case"c1": usbIncorrect(); break;
-				case"c2": usbIncorrect(); break;
-				case"c3": usbCorrect(); break;
-				case"c4": usbIncorrect(); break;
+				case"c1": choices.add(1); usbIncorrect(); break;
+				case"c2": choices.add(2); usbIncorrect(); break;
+				case"c3": choices.add(3); usbCorrect(); break;
+				case"c4": choices.add(4); usbIncorrect(); break;
 				
 				}
 				
@@ -626,10 +661,10 @@ public class Game {
 				
 			case "usbCorrect":
 				switch(yourChoice) {
-				case"c1": updateCorrect(); break;
-				case"c2": updateCorrect(); break;
-				case"c3": updateBetter(); break;
-				case"c4": webcamAccessed(); break;
+				case"c1": choices.add(1); updateCorrect(); break;
+				case"c2": choices.add(2); updateCorrect(); break;
+				case"c3": choices.add(3); updateBetter(); break;
+				case"c4": choices.add(4); webcamAccessed(); break;
 				
 				}
 				
@@ -645,10 +680,10 @@ public class Game {
 				
 			case "updateCorrect":
 				switch(yourChoice) {
-				case "c1": passwordCorrect(); break;
-				case"c2": p_neverReveal(); break;
-				case"c3": passwordQuestion(); break;
-				case"c4": p_neverReveal(); break;
+				case "c1": choices.add(1); passwordCorrect(); break;
+				case"c2": choices.add(2); p_neverReveal(); break;
+				case"c3": choices.add(3); passwordQuestion(); break;
+				case"c4": choices.add(4); p_neverReveal(); break;
 				}
 				
 				break;
@@ -675,8 +710,7 @@ public class Game {
 				}
 				
 				break;
-				
-			
+					
 			}
 		}
 	}
