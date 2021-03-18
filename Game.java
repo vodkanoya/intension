@@ -185,7 +185,7 @@ public class Game {
 	
 	public void playerSetup() {
 		
-		securityHP = 90;
+		securityHP = 85;
 		securityLabelNumber.setText("" + securityHP);
 		
 		clearance();
@@ -268,6 +268,7 @@ public class Game {
 		
 		c1.setText("It doesn't have any significance.");
 		c2.setText("You're safely connected."); // correct
+		c2.setVisible(true);
 		c3.setVisible(true);
 		c4.setVisible(true);
 		c3.setText("The website is locked.");
@@ -289,9 +290,11 @@ public class Game {
 	
 	public void popUp() {
 		
-		position = "popup";
-		
-		// inserting a random image here
+		position = "popUp";
+		mainTextArea.setText("The pop-up reads: 'HTTP and HTTPS are \nbrowser protocols used to send and receive"
+				+ " data packets over the web. "
+				+ "Data is \necnrypted with HTTP but not with HTTPS.'"
+				+ "\n\nYou shrug. \nSeems like meaningless information.");
 		
 		c1.setText("Next");
 		c2.setVisible(false);
@@ -303,7 +306,7 @@ public class Game {
 	public void demand() {
 		
 		position = "demandBank";
-		mainTextArea.setText("They send back an email with a button, \nclaiming it's for claiming your prize."
+		mainTextArea.setText("They send back an email with a button, \nsaying it's for claiming your prize."
 				+ "\n\nAt the corner of your eye, you spot \nsomething in the distance away from your \nscreen. "
 				+ "But a notification at the bottom \ncorner of the screen demands your \nattention too."
 				+ "\n\nWhat do you do?");
@@ -348,6 +351,26 @@ public class Game {
 		
 	}
 	
+	public void padlockCorrect() {
+		
+		position = "padlockCorrect";
+		
+		securityHP = securityHP + 5;
+		securityLabelNumber.setText(""+securityHP);
+		
+		mainTextArea.setText("Seems you know a bit about cybersecurity...Nice."
+				+ "\n\nOver the corner of your eye, you spot a \nUSB on the floor. \n\nYou proceed to:");
+		
+		c2.setVisible(true);
+		c4.setVisible(true);
+		c3.setVisible(true);
+		c1.setText("Give it to someone you know");
+		c2.setText("Leave it on the floor");
+		c3.setText("Give it to IT security personnel"); // correct
+		c4.setText("Check its contents");
+		
+	}
+	
 	public void padlockIncorrect() {
 		
 		position = "padlockIncorrect";
@@ -355,13 +378,31 @@ public class Game {
 				+ " with a \ncertificate authority to ensure that they \nare who they say they are."
 				+ "\n\nYou may be safely connected to the site \nbut the site may not be legitimate.");
 		
-		securityHP = securityHP - 20;
-		securityLabelNumber.setText(""+securityHP);
-		
 		c1.setText("Next");
 		c2.setVisible(false);
 		c4.setVisible(false);
 		c3.setVisible(false);
+		
+	}
+	
+	public void usbBetterCorrect() {
+		
+		position = "usbBetterCorrect";
+		mainTextArea.setText("So it seems you're aware of the risks of \nleaving a stray USB lying around."
+				+ "\n\nThen tell me, what would be the best course"
+				+ "of action when a Windows notification \ninforms "
+				+ "you to update your system?");
+		
+		securityHP = securityHP + 5;
+		securityLabelNumber.setText(""+securityHP);
+		
+		c2.setVisible(true);
+		c4.setVisible(true); 
+		c3.setVisible(true);
+		c1.setText("Update it later."); // correct
+		c2.setText("Update it now."); // correct
+		c3.setText("Back up data and update it now."); // even better
+		c4.setText("Ignore and don't update.");
 		
 	}
 	
@@ -384,10 +425,20 @@ public class Game {
 	public void webcamAccessed() {
 		
 		position = "webcamAccessed";
+		mainTextArea.setText("Your mouse begins to move on its own and a bunch "
+				+ "of programs open up without you doing"
+				+ "anything. You are unable to regain control of your computer."
+				+ "\n\nUpdates should be done as soon as possible as there may be vulnerabilities "
+				+ "attackers \nwould rush to exploit. They could take \ncontrol of your system "
+				+ "if these \nvulnerabilities aren't fixed.");
 		
-		securityHP = securityHP - 30;
+		securityHP = securityHP - 25;
 		securityLabelNumber.setText(""+securityHP);
 		
+		c1.setText("Next");
+		c2.setVisible(false);
+		c4.setVisible(false);
+		c3.setVisible(false);
 	}
 	
 	public void updateCorrect() {
@@ -425,20 +476,6 @@ public class Game {
 		c2.setVisible(false);
 		c4.setVisible(false);
 		c3.setVisible(false);
-	}
-	
-	public void passwordCorrect() {
-		
-		position = "passwordCorrect";
-		mainTextArea.setText("This would be the last scenario");
-		
-		c2.setVisible(true);
-		c4.setVisible(true);
-		c3.setVisible(true);
-		c1.setText("Insert text here");
-		c2.setText("Insert text here"); 
-		c3.setText("Insert text here"); 
-		c4.setText("Insert text here");
 	}
 	
 	public void passwordQuestion() {
@@ -501,6 +538,124 @@ public class Game {
 		c4.setVisible(false);
 		c3.setVisible(false);
 	}
+	
+	public void extra1() {
+		
+		position = "extra1";
+		mainTextArea.setText("Alright, let's get more technical."
+				+ "\n\nRaise your hand if you want to know why a \nfirewall is called a firewall.");
+		
+		c2.setVisible(true);
+		c4.setVisible(true);
+		c3.setVisible(true);
+		c1.setText("Why?");
+		c2.setText("You can tell if my hand's raised?"); 
+		c3.setText("I don't need to know this."); 
+		c4.setText("It's not an IT term, is it?");
+	}
+	
+	public void firewalltrivia() {
+		
+		position = "firewalltrivia";
+		mainTextArea.setText("I don't have to tell you this, but the term"
+				+ "WAS stolen from the construction industry."
+				+ "\nA firewall is software installed between a \nnetwork and the rest of the Internet, "
+				+ "\nprotecting one from malicious traffic."
+				+ "\n\nFeel free to buy one. We're selling at a \nbargain price of 15 security points.");
+		
+		c1.setText("Buy");
+		c2.setText("How did you know..?");
+		c4.setVisible(false);
+		c3.setVisible(false);
+
+	}
+	
+	public void serverKnowing() {
+		
+		position = "serverKnowing";
+		mainTextArea.setText("I can tell you everything you've done in \nthis game so far. Curious?"
+				+ "\n\nThen select a key to access the information"
+				+ "stored on a site." + choices);
+		
+		c2.setVisible(true);
+		c4.setVisible(true);
+		c3.setVisible(true);
+		c1.setText("422121222");
+		c2.setText("2341434"); 
+		c3.setText("32123212"); 
+		c4.setText("Correct key"); // actual order of choices
+		
+	}
+	
+	public void selectSite() {
+		
+		position = "selectSite";
+		mainTextArea.setText("Got your key? Good."
+				+ "\n\nWoops. Looks like I've lost the actual link"
+				+ "so I'm not too sure..."
+				+ "\n\nLet's try going to:");
+		
+		c2.setVisible(true);
+		c4.setVisible(true);
+		c3.setVisible(true);
+		c1.setText("https://intensionsdata.net"); // correct
+		c2.setText("https://inttensions.net"); 
+		c3.setText("http://intensionsdata.net");
+		c4.setText("https://intensionsbeta.nett"); 
+	}
+	
+	public void enterKey() {
+		
+		position = "enterKey";
+		mainTextArea.setText("A white screen appears with text reading \n'Enter Password: '"
+				+ "\n\nRight! It's this site."
+				+ "\n\nLet's enter the key, shall we?");
+	}
+	
+	public void correctKeyEntered() {
+		
+		position = "correctKeyEntered";
+		
+	}
+	
+	public void insecureHTTP() {
+		
+		position = "insecureHTTP";
+		mainTextArea.setText("Did you really mean to come here?"
+				+ "\n\nWell...it's certainly not this site."
+				+ "\n\nLet's try again.");
+		
+		c1.setText("Back to site selection");
+		c2.setVisible(false);
+		c4.setVisible(false);
+		c3.setVisible(false);
+	}
+	
+	public void incorrectSiteEnter() {
+		
+		position = "incorrectSiteEnter";
+		mainTextArea.setText("Some confusing and obscene images appear \nout of the blue."
+				+ "\n\nWell...it's certainly not this site."
+				+ "\n\nLet's try again.");
+		
+		c1.setText("Back to site selection");
+		c2.setVisible(false);
+		c4.setVisible(false);
+		c3.setVisible(false);
+	}
+	
+	public void haveNotLearned() {
+		
+		position = "haveNotLearned";
+		mainTextArea.setText("");
+	}
+	
+	public void keySelect() {
+		
+		position = "keySelect";
+		mainTextArea.setText("");
+	}
+	
 	
 	public void gameOver() {
 		
@@ -618,6 +773,13 @@ public class Game {
 				
 				break;
 				
+			case "popUp":
+				switch(yourChoice) {
+				case "c1": correctURL(); break;
+				}
+				
+				break;
+				
 			case "wrongGoogle":
 				switch(yourChoice) {
 				case "c1": choices.add(1); correctURL(); break;
@@ -629,7 +791,7 @@ public class Game {
 			case "correctURL":
 				switch(yourChoice) {
 				case"c1": choices.add(1); padlockIncorrect(); break;
-				case"c2": choices.add(2); padlockOver(); break;
+				case"c2": choices.add(2); padlockCorrect(); break;
 				case"c3": choices.add(3); padlockIncorrect(); break;
 				case"c4": choices.add(4); padlockIncorrect(); break;
 				}
@@ -643,14 +805,35 @@ public class Game {
 				
 				break;
 				
+			case "padlockCorrect":
+				switch(yourChoice) {
+				case"c1": choices.add(1); usbIncorrect(); break;
+				case"c2": choices.add(2); usbIncorrect(); break;
+				case"c3": choices.add(3); usbBetterCorrect(); break;
+				case"c4": choices.add(4); usbIncorrect(); break;
+				
+				}
+				
+				break;
+				
 			case "padlockOver":
 				switch(yourChoice) {
 				case"c1": choices.add(1); usbIncorrect(); break;
 				case"c2": choices.add(2); usbIncorrect(); break;
-				case"c3": choices.add(3); usbCorrect(); break;
+				case"c3": choices.add(3); usbBetterCorrect(); break;
 				case"c4": choices.add(4); usbIncorrect(); break;
 				
 				}
+				
+				break;
+				
+			case "usbBetterCorrect":
+				switch(yourChoice) {
+				case"c1": choices.add(1); updateCorrect(); break;
+				case"c2": choices.add(2); updateCorrect(); break;
+				case"c3": choices.add(3); updateBetter(); break;
+				case"c4": choices.add(4); webcamAccessed(); break;
+				} 
 				
 				break;
 				
@@ -658,6 +841,8 @@ public class Game {
 				switch(yourChoice) {
 				case"c1": usbCorrect(); break;
 				}
+				
+				break;
 				
 			case "usbCorrect":
 				switch(yourChoice) {
@@ -670,6 +855,12 @@ public class Game {
 				
 				break;
 				
+			case "webcamAccessed":
+				switch(yourChoice) {
+				case "c1": updateCorrect(); break;
+				
+				}
+				
 			case "updateBetter":
 				switch(yourChoice) {
 				case "c1": updateCorrect(); break;
@@ -680,7 +871,7 @@ public class Game {
 				
 			case "updateCorrect":
 				switch(yourChoice) {
-				case "c1": choices.add(1); passwordCorrect(); break;
+				case"c1": choices.add(1); extra1(); break;
 				case"c2": choices.add(2); p_neverReveal(); break;
 				case"c3": choices.add(3); passwordQuestion(); break;
 				case"c4": choices.add(4); p_neverReveal(); break;
@@ -690,14 +881,14 @@ public class Game {
 				
 			case "p_neverReveal":
 				switch(yourChoice) {
-				case "c1": passwordCorrect(); break;
+				case "c1": extra1(); break;
 				}
 				
 				break;
 				
 			case "passwordQuestion":
 				switch(yourChoice) {
-				case "c1": p_neverReveal(); break;
+				case"c1": p_neverReveal(); break;
 				case"c2": p_neverReveal(); break;
 				case"c3": p_choice3(); break;
 				}
@@ -706,11 +897,70 @@ public class Game {
 				
 			case "p_choice3":
 				switch(yourChoice) {
-				case "c1": passwordCorrect(); break;
+				case "c1": extra1(); break;
 				}
 				
 				break;
-					
+				
+			case "extra1":
+				switch(yourChoice) {
+				case"c1": choices.add(1); firewalltrivia(); break;
+				case"c2": choices.add(2); serverKnowing(); break;
+				case"c3": choices.add(3); firewalltrivia(); break;
+				case"c4": choices.add(4); firewalltrivia(); break;
+				}
+				
+				break;
+				
+			case "firewalltrivia":
+				switch(yourChoice) {
+				case "c1": choices.add(1); firewalltrivia(); break;
+				case"c2": choices.add(2); serverKnowing(); break;
+				}
+				
+				break;
+				
+			case "serverKnowing":
+				switch(yourChoice) {
+				case"c1": choices.add(1); selectSite(); break;
+				case"c2": choices.add(2); selectSite(); break;
+				case"c3": choices.add(3); selectSite(); break;
+				case"c4": choices.add(4); firewalltrivia(); break;
+				}
+				
+				break;
+				
+			case "selectSite":
+				switch(yourChoice) {
+				case "c1": choices.add(1); enterKey(); break;
+				case"c2": choices.add(2); incorrectSiteEnter(); break;
+				case"c3": choices.add(3); insecureHTTP(); break;
+				case"c4": choices.add(4); incorrectSiteEnter(); break;
+				}
+				
+				break;
+				
+			case "incorrectSiteEnter":
+				switch(yourChoice) {
+				case "c1": selectSite(); break;
+				}
+				
+				break;
+				
+			case "enterKey":
+				switch(yourChoice) {
+				case "c1": selectSite(); break;
+				}
+				
+				break;
+				
+			case "insecureHTTP":
+				switch(yourChoice) {
+				case "c1": selectSite(); break;
+				}
+				
+				break;
+				
 			}
 		}
 	}
