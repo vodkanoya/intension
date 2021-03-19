@@ -6,8 +6,6 @@ import javafx.application.Application;
 import javafx.scene.*;
 import java.awt.event.*;
 import javax.swing.border.*;
-import javax.swing.JScrollPane;  
-import javax.swing.JTextPane;  
 import javax.swing.text.BadLocationException;  
 import javax.swing.text.Document;  
 import javax.swing.text.SimpleAttributeSet;  
@@ -15,33 +13,38 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Game {
 	
 	Container con;
 	JFrame window;
-	JPanel titlePanel, gameDescriptionPanel, startButtonPanel, hardButtonPanel, mainTextPanel, choiceButtonPanel, playerPanel;
-	JLabel title, gameDescription, securityLabel, securityLabelNumber;
-	JButton startButton, hardButton, c1, c2, c3, c4, creditsButton;
+	JPanel titlePanel, gameDescriptionPanel, startButtonPanel, enterPanel, mainTextPanel, choiceButtonPanel, playerPanel;
+	JLabel title, gameDescription, securityLabel, securityLabelNumber, res;
+	JButton startButton, hardButton, c1, c2, c3, c4, creditsButton, inputButton, hint;
 	JTextArea mainTextArea;
+	JTextField keyField;
 	Font titleFont = new Font("Consolas", Font.PLAIN, 50);
 	Font startButtonFont = new Font("Consolas", Font.ITALIC, 26);
 	Font normalFont = new Font("Consolas", Font.PLAIN, 20);
 	Font smallnormalFont = new Font("Consolas", Font.PLAIN, 15);
+	Font hintFont = new Font("Consolas", Font.PLAIN, 12);
 	int securityHP;
-	String position;
+	String position, choicesKey, key;
 	
 	ArrayList<Integer> choices = new ArrayList<>();
 	TitleScreenHandler tsHandler = new TitleScreenHandler();
 	ChoiceHandler choiceHandler = new ChoiceHandler();
 	
 	public static void main(String[] args) {
-		
+	
 		new Game();
 	}
 	
 	public Game() {
-		
 		
 		window = new JFrame();
 		window.setSize(800, 600);
@@ -89,7 +92,7 @@ public class Game {
 		creditsButton.setBounds(250, 480, 300, 60);
 		creditsButton.setBorderPainted(false);
 		creditsButton.setFocusPainted(false);
-		
+
 		titlePanel.add(title);
 		startButtonPanel.add(startButton);
 		gameDescriptionPanel.add(gameDescription);
@@ -224,7 +227,7 @@ public class Game {
 		
 		position = "giveDetails";
 		mainTextArea.setText("Your bank calls you to inform you that \nyour account has"
-				+ " been compromised. \n\nNever disclose sensitive \ninformation online." + choices);
+				+ " been compromised. \n\nNever disclose sensitive \ninformation online.");
 		securityHP = securityHP - 20;
 		securityLabelNumber.setText(""+securityHP);
 		
@@ -563,8 +566,8 @@ public class Game {
 				+ "\nprotecting one from malicious traffic."
 				+ "\n\nFeel free to buy one. We're selling at a \nbargain price of 15 security points.");
 		
-		c1.setText("Buy");
-		c2.setText("How did you know..?");
+		c1.setText("How did you know..?");
+		c2.setVisible(false);
 		c4.setVisible(false);
 		c3.setVisible(false);
 
@@ -577,13 +580,22 @@ public class Game {
 				+ "\n\nThen select a key to access the information"
 				+ "stored on a site." + choices);
 		
+		StringBuilder sb = new StringBuilder();
+		
+		for (int i = 0; i <= choices.size() - 1; i++) {
+			int num = choices.get(i);
+			sb.append(num);
+		}
+		
+		choicesKey = sb.toString();
+		
 		c2.setVisible(true);
 		c4.setVisible(true);
 		c3.setVisible(true);
 		c1.setText("422121222");
-		c2.setText("2341434"); 
+		c2.setText("213414342"); 
 		c3.setText("32123212"); 
-		c4.setText("Correct key"); // actual order of choices
+		c4.setText(choicesKey); // actual order of choices
 		
 	}
 	
@@ -607,15 +619,82 @@ public class Game {
 	public void enterKey() {
 		
 		position = "enterKey";
-		mainTextArea.setText("A white screen appears with text reading \n'Enter Password: '"
+		mainTextArea.setText("The screen appears familiar to you."
 				+ "\n\nRight! It's this site."
-				+ "\n\nLet's enter the key, shall we?");
+				+ "\n\nLet's enter the key, shall we?" + choices);
+		
+		choiceButtonPanel.setVisible(false); 
+		
+		inputButton = new JButton("Unlock");
+		inputButton.setBounds(335, 435, 125, 30); // first is Y axis, second is X axis
+		inputButton.setBackground(Color.gray);
+		inputButton.setForeground(Color.white);
+		inputButton.setFont(smallnormalFont);
+		inputButton.addActionListener(new BtnListener());
+		inputButton.setBorderPainted(false);
+		inputButton.setFocusPainted(false);
+		
+        enterPanel = new JPanel();
+        enterPanel.setLayout(new FlowLayout());
+        enterPanel.setBounds(250, 370, 300, 150);
+        enterPanel.setBackground(Color.darkGray);
+        
+        res = new JLabel("Enter Password: ");
+        res.setFont(normalFont);
+        res.setForeground(Color.gray);
+        enterPanel.add(res);
+        
+        hint = new JButton("Hint: Think of all the choices you've made so far.");
+        hint.setBounds(225, 250, 400, 90);
+        hint.setFont(hintFont);
+        hint.setBackground(Color.darkGray);
+        hint.setForeground(Color.lightGray);
+        hint.setBorderPainted(false);
+        hint.setFocusPainted(false);
+        
+        keyField = new JTextField(15);
+        enterPanel.add(keyField);
+        
+        con.add(enterPanel);
+        con.add(inputButton);
+        con.add(hint);
+		
 	}
 	
 	public void correctKeyEntered() {
 		
 		position = "correctKeyEntered";
+		mainTextArea.setText("Impressive. ");
 		
+		choiceButtonPanel.setVisible(true); 
+		c4.setVisible(false);
+		enterPanel.setVisible(false);
+		inputButton.setVisible(false);
+		res.setVisible(false);
+		hint.setVisible(false);
+		c1.setVisible(true);
+		c2.setVisible(true);
+		c3.setVisible(true);
+		c1.setText("Check score");
+		c2.setText("Restart");
+		c3.setText("Exit");
+		
+	}
+	
+	public void correctKeyChosen() {
+		
+		position = "correctKeyChosen";
+		mainTextArea.setText("Impressive. ");
+		
+		c1.setText("Check score");
+		c2.setText("Restart");
+		c3.setText("Exit");
+		c4.setVisible(false);
+	}
+	
+	public void checkScore() {
+		
+		position = "checkScore";
 	}
 	
 	public void insecureHTTP() {
@@ -660,7 +739,7 @@ public class Game {
 	public void gameOver() {
 		
 		position = "gameOver";
-		mainTextArea.setText("You've failed to secure your system.");
+		System.exit(0);
 		
 	}
 	
@@ -700,6 +779,39 @@ public class Game {
 		public void actionPerformed(ActionEvent event){
 			
 			createGameScreen();
+		}
+	}
+	
+	public class BtnListener implements ActionListener {
+		
+		public void actionPerformed(ActionEvent event) {
+			
+			// converting all choices made so far into the 'key'
+			
+			StringBuilder sb = new StringBuilder();
+			
+			for (int i = 0; i <= choices.size() - 1; i++) {
+				int num = choices.get(i);
+				sb.append(num);
+			}
+			
+			choicesKey = sb.toString();
+			
+			
+			String content = keyField.getText();
+			
+			try {
+				key = content;
+				if (key.contentEquals(choicesKey)) {
+					correctKeyEntered();
+				}
+				else {
+					res.setText("Try again!");
+				}
+			} catch (Exception e) {
+				System.out.println("Formatting error encountered");
+			}
+			
 		}
 	}
 	
@@ -914,8 +1026,7 @@ public class Game {
 				
 			case "firewalltrivia":
 				switch(yourChoice) {
-				case "c1": choices.add(1); firewalltrivia(); break;
-				case"c2": choices.add(2); serverKnowing(); break;
+				case "c1": choices.add(1); serverKnowing(); break;
 				}
 				
 				break;
@@ -925,7 +1036,7 @@ public class Game {
 				case"c1": choices.add(1); selectSite(); break;
 				case"c2": choices.add(2); selectSite(); break;
 				case"c3": choices.add(3); selectSite(); break;
-				case"c4": choices.add(4); firewalltrivia(); break;
+				case"c4": choices.add(4); correctKeyChosen(); break;
 				}
 				
 				break;
@@ -961,6 +1072,23 @@ public class Game {
 				
 				break;
 				
+			case "correctKeyChosen":
+				switch(yourChoice) {
+				case "c1": checkScore(); break;
+				case "c2": new Game(); break;
+				case "c3": System.exit(0); break;
+				}
+				
+				break;
+				
+			case "correctKeyEntered":
+				switch(yourChoice) {
+				case "c1": checkScore(); break;
+				case "c2": new Game(); break;
+				case "c3": System.exit(0); break;
+				}
+				
+				break;
 			}
 		}
 	}
