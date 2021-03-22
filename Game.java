@@ -17,6 +17,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 
 public class Game {
 	
@@ -24,7 +25,7 @@ public class Game {
 	JFrame window;
 	JPanel titlePanel, gameDescriptionPanel, startButtonPanel, enterPanel, mainTextPanel, choiceButtonPanel, playerPanel;
 	JLabel title, gameDescription, securityLabel, securityLabelNumber, res;
-	JButton startButton, hardButton, c1, c2, c3, c4, creditsButton, inputButton, hint;
+	JButton startButton, hardButton, c1, c2, c3, c4, creditsButton, inputButton, hint, restart;
 	JTextArea mainTextArea;
 	JTextField keyField;
 	Font titleFont = new Font("Consolas", Font.PLAIN, 50);
@@ -38,6 +39,7 @@ public class Game {
 	ArrayList<Integer> choices = new ArrayList<>();
 	TitleScreenHandler tsHandler = new TitleScreenHandler();
 	ChoiceHandler choiceHandler = new ChoiceHandler();
+	int tries = 0;
 	
 	public static void main(String[] args) {
 	
@@ -46,7 +48,7 @@ public class Game {
 	
 	public Game() {
 		
-		window = new JFrame();
+		window = new JFrame("Intension");
 		window.setSize(800, 600);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.getContentPane().setBackground(Color.darkGray);
@@ -578,7 +580,7 @@ public class Game {
 		position = "serverKnowing";
 		mainTextArea.setText("I can tell you everything you've done in \nthis game so far. Curious?"
 				+ "\n\nThen select a key to access the information"
-				+ "stored on a site." + choices);
+				+ "stored on a site.");
 		
 		StringBuilder sb = new StringBuilder();
 		
@@ -588,14 +590,13 @@ public class Game {
 		}
 		
 		choicesKey = sb.toString();
-		
 		c2.setVisible(true);
 		c4.setVisible(true);
 		c3.setVisible(true);
 		c1.setText("422121222");
 		c2.setText("213414342"); 
 		c3.setText("32123212"); 
-		c4.setText(choicesKey); // actual order of choices
+		c4.setText(choicesKey);
 		
 	}
 	
@@ -621,7 +622,7 @@ public class Game {
 		position = "enterKey";
 		mainTextArea.setText("The screen appears familiar to you."
 				+ "\n\nRight! It's this site."
-				+ "\n\nLet's enter the key, shall we?" + choices);
+				+ "\n\nLet's enter the key, shall we?");
 		
 		choiceButtonPanel.setVisible(false); 
 		
@@ -633,6 +634,16 @@ public class Game {
 		inputButton.addActionListener(new BtnListener());
 		inputButton.setBorderPainted(false);
 		inputButton.setFocusPainted(false);
+		
+		restart = new JButton("Restart?");
+		restart.setBounds(335, 475, 125, 30); // first is Y axis, second is X axis
+		restart.setBackground(Color.lightGray);
+		restart.setForeground(Color.gray);
+		restart.setFont(smallnormalFont);
+		restart.addActionListener(new BtnListener2());
+		restart.setBorderPainted(false);
+		restart.setFocusPainted(false);
+		restart.setVisible(false);
 		
         enterPanel = new JPanel();
         enterPanel.setLayout(new FlowLayout());
@@ -657,6 +668,7 @@ public class Game {
         
         con.add(enterPanel);
         con.add(inputButton);
+        con.add(restart);
         con.add(hint);
 		
 	}
@@ -664,7 +676,12 @@ public class Game {
 	public void correctKeyEntered() {
 		
 		position = "correctKeyEntered";
-		mainTextArea.setText("Impressive. ");
+		mainTextArea.setText("Impressive. "
+				+ "\n\nThe concept of computers generating 'keys' from remembering user "
+				+ "inputs forms the \nbasis of many security protocols."
+				+ "\n\nEvery instance you "
+				+ "login somewhere online, a session key "
+				+ "is only used once and \ntemporarily, for encrypting data.");
 		
 		choiceButtonPanel.setVisible(true); 
 		c4.setVisible(false);
@@ -675,26 +692,61 @@ public class Game {
 		c1.setVisible(true);
 		c2.setVisible(true);
 		c3.setVisible(true);
+		c4.setVisible(true);
 		c1.setText("Check score");
-		c2.setText("Restart");
-		c3.setText("Exit");
+		c2.setText("Give feedback");
+		c3.setText("Restart");
+		c4.setText("Exit");
 		
 	}
 	
 	public void correctKeyChosen() {
 		
 		position = "correctKeyChosen";
-		mainTextArea.setText("Impressive. ");
+		mainTextArea.setText("Impressive. "
+				+ "\n\nThe concept of computers generating 'keys' from remembering user "
+				+ "inputs forms the \nbasis of many security protocols."
+				+ "\n\nEvery instance you "
+				+ "login somewhere online, a session key "
+				+ "is only used once and \ntemporarily, for encrypting data.");
 		
 		c1.setText("Check score");
-		c2.setText("Restart");
-		c3.setText("Exit");
-		c4.setVisible(false);
+		c2.setText("Give feedback");
+		c3.setText("Restart");
+		c4.setText("Exit");
 	}
 	
 	public void checkScore() {
 		
 		position = "checkScore";
+		mainTextArea.setText("Congratulations!"
+				+ " You've reached the end of the game."
+				+ "\n\nYour final score is " + securityHP + "."
+				+ "\n\n80-100: Great awareness\r\n" + 
+				"60-79: Decent awareness\r\n" + 
+				"30-59: Not very aware\r\n" + 
+				"0-29: You can do better!" + 
+				"");
+		
+		c1.setText("Give feedback");
+		c2.setText("Restart");
+		c3.setText("Exit");
+		c4.setVisible(false);
+	}
+	
+	public void giveFeedback() {
+		
+		position = "giveFeedback";
+		mainTextArea.setText("Thank you for playing!"
+				+ "\n\nPlease head to the link below to provide \nfeedback so we can improve "
+				+ "the gameplay \nexperience for you :)"
+				+ "\n\nhttps://forms.gle/rn481GJm1Xx5HoQk8");
+		
+		c1.setText("Check score");
+		c2.setText("Restart");
+		c3.setText("Exit");
+		c4.setVisible(false);
+		
 	}
 	
 	public void insecureHTTP() {
@@ -703,6 +755,9 @@ public class Game {
 		mainTextArea.setText("Did you really mean to come here?"
 				+ "\n\nWell...it's certainly not this site."
 				+ "\n\nLet's try again.");
+		
+		securityHP = securityHP - 10;
+		securityLabelNumber.setText(""+securityHP);
 		
 		c1.setText("Back to site selection");
 		c2.setVisible(false);
@@ -723,25 +778,6 @@ public class Game {
 		c3.setVisible(false);
 	}
 	
-	public void haveNotLearned() {
-		
-		position = "haveNotLearned";
-		mainTextArea.setText("");
-	}
-	
-	public void keySelect() {
-		
-		position = "keySelect";
-		mainTextArea.setText("");
-	}
-	
-	
-	public void gameOver() {
-		
-		position = "gameOver";
-		System.exit(0);
-		
-	}
 	
 	public void startOver() {
 		
@@ -782,6 +818,14 @@ public class Game {
 		}
 	}
 	
+	public class BtnListener2 implements ActionListener {
+		
+		public void actionPerformed(ActionEvent event) {
+			
+			new Game();
+		}
+	}
+	
 	public class BtnListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent event) {
@@ -796,8 +840,6 @@ public class Game {
 			}
 			
 			choicesKey = sb.toString();
-			
-			
 			String content = keyField.getText();
 			
 			try {
@@ -806,11 +848,18 @@ public class Game {
 					correctKeyEntered();
 				}
 				else {
-					res.setText("Try again!");
+					if (tries < 5){
+						res.setText("Try again!");
+					}
+					else {
+						restart.setVisible(true);
+					}
 				}
 			} catch (Exception e) {
 				System.out.println("Formatting error encountered");
 			}
+			
+			tries++;
 			
 		}
 	}
@@ -1075,8 +1124,9 @@ public class Game {
 			case "correctKeyChosen":
 				switch(yourChoice) {
 				case "c1": checkScore(); break;
-				case "c2": new Game(); break;
-				case "c3": System.exit(0); break;
+				case "c2": break;
+				case "c3": new Game(); break;
+				case "c4": System.exit(0); break;
 				}
 				
 				break;
@@ -1084,11 +1134,31 @@ public class Game {
 			case "correctKeyEntered":
 				switch(yourChoice) {
 				case "c1": checkScore(); break;
+				case "c2": giveFeedback(); break;
+				case "c3": new Game(); break;
+				case "c4": System.exit(0); break;
+				}
+				
+				break;
+				
+			case "checkScore":
+				switch(yourChoice) {
+				case "c1": giveFeedback(); break;
 				case "c2": new Game(); break;
 				case "c3": System.exit(0); break;
 				}
 				
 				break;
+				
+			case "giveFeedback":
+				switch(yourChoice) {
+				case "c1": checkScore(); break;
+				case "c2": new Game(); break;
+				case "c3": System.exit(0); break;
+				}
+				
+				break;
+				
 			}
 		}
 	}
