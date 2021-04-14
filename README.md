@@ -10,4 +10,5 @@ https://forms.gle/LroYTe3GnqoP3yon8
 ## Credits<br>
 **Programs used:** Eclipse Oxygen, launch4j, Wordpad<br>
 **Language:** Java<br>
-**Tutorial referenced:** https://youtube.com/playlist?list=PL_QPQmz5C6WUMB0xEMZosWbyQo_Kil0Fb
+**Tutorials referenced:** https://youtube.com/playlist?list=PL_QPQmz5C6WUMB0xEMZosWbyQo_Kil0Fb
+<br>https://www.youtube.com/watch?v=GmkGg9jPhaA
